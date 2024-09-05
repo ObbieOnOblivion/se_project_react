@@ -4,9 +4,10 @@ import React, { useContext } from 'react';
 import ItemCard from "./ItemCard";
 import WeatherCard from "./WeatherCard";
 import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext";
-
+import CurrentUserContext from '../context/CurrentUserContext';
 const Main = (props) => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext);
+  const currentUser = useContext(CurrentUserContext);
 
   const generateCards = () => {
 
@@ -28,7 +29,8 @@ const Main = (props) => {
               : "cold";
         }
       };
-      if (item.weather === weatherCategory(props.temperature, currentTemperatureUnit)) {
+      if ((item.weather === weatherCategory(props.temperature, currentTemperatureUnit)) && item.owner == currentUser._id) {
+        console.log(item.owner);
         return (
           <ItemCard
             id={item._id}

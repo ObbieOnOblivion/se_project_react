@@ -1,0 +1,310 @@
+import "../blocks/App.css";
+import "../index.css";
+import React, { useState, useEffect } from "react";
+import { Route, Switch } from 'react-router-dom';
+import Header from "./Header";
+import Main from "./Main";
+import AddClothsButton from "./AddClothsButton";
+import Footer from "./Footer";
+import ItemModal from "./ItemModal";
+import DeleteModal from "./DeleteModal";
+import fetchApiInfo from "../utils/WeatherApi";
+import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext"
+import CurrentCardsContext from "../context/CardsContext";
+import CurrentUserContext from "../context/CurrentUserContext";
+import Profile from "./Profile"
+import AddItemModal from "./AddItemModal";
+import {
+  getCards, addCard, deleteCard, registerUser, loginUser, checkUser,
+  addCardLike, removeCardLike, updateUser
+} from "../utils/api";
+import LoginModal from "./Login";
+import RegisterModal from "./Register";
+import EditProfileModal from "./EditProfileModal";
+
+const App = () => {
+  const [itemModal, setItemModal] = useState({
+    opened: false,
+    itemInfo: { id: "", title: "", link: "", category: "", owner: "" }
+  });
+  const [deleteModal, setDeleteModal] = useState({ opened: false })
+  const [loginModal, setLoginModal] = useState({ opened: false })
+  const [registerModal, setRegisterModal] = useState({ opened: false })
+  const [addModal, setAddModal] = useState({ opened: false });
+  const [weatherData, setWeatherData] = useState({});
+  const [temperature, setTemperature] = useState(0);
+  const [currentTemperatureUnit, setCurrentTempUnit] = useState("F");
+  const [cards, setClothingItems] = useState([]); // this makes no sense (the use of cards var name)
+  const [currentUser, setCurrentUser] = useState({});
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const [editProfileModal, setEditProfileModal] = useState(false);
+
+  const setUser = (token) =>{
+    checkUser(token).then(
+      (response) => {
+        if (response._id) {
+          setRegisterModal({ opened: false })
+          setLoginModal({ opened: false })
+          setCurrentUser(response)
+          setIsUserLoggedIn(true)
+        }
+      }
+    ).catch(error => {
+      throw new Error(error);
+    })
+  }
+
+  useEffect(() => {
+    const fetchClothesData = async () => {
+      const response = await getCards();
+      const updatedCards = response.map(item => ({
+        _id: item._id,
+        name: item.name,
+        weather: item.weather,
+        imageUrl: item.imageUrl,
+        owner: item.owner,
+        likes: item.likes
+      }));
+      setClothingItems(updatedCards);
+    };
+    fetchClothesData();
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      setUser(token)
+    } 
+
+  }, []);
+
+  useEffect(() => {
+    fetchApiInfo()
+      .then((data) => {
+        setWeatherData(data);
+        setTemperature(data.main.temp);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  const openEditProfileModal = () => {
+    setEditProfileModal(true)
+  }
+
+  const closeEditProfileModal = () => {
+    setEditProfileModal(false)
+  }
+
+  const closeLoginModal = () => {
+    setLoginModal({ opened: false });
+  }
+
+  const openLoginModal = () => {
+    setLoginModal({ opened: true });
+  }
+
+  const closeRegisterModal = () => {
+    setRegisterModal({ opened: false });
+  }
+
+  const openRegisterModal = () => {
+    setRegisterModal({ opened: true });
+  }
+
+  const closeItemModal = () => {
+    setItemModal((prevItemModal) => ({ ...prevItemModal, opened: false }));
+  };
+
+  const closeAddModal = () => {
+    setAddModal((prevAddModal) => ({ ...prevAddModal, opened: false }));
+  };
+
+  const openAddModal = () => {
+    setAddModal({ opened: true });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ opened: false })
+  }
+
+  const handleToggleSwitchChange = () => {
+    currentTemperatureUnit === "F"
+      ? setCurrentTempUnit("C") :
+      setCurrentTempUnit("F");
+
+  }
+
+  const toggleItemModal = (id, title, link, category, owner) => {
+    setItemModal((prevItemModal) => ({
+      ...prevItemModal,
+      itemInfo: {
+        id: id,
+        title: title,
+        link: link,
+        category: category,
+        owner: owner
+      },
+      opened: !prevItemModal.opened,
+    }));
+  };
+
+  const removeCardById = (idToRemove) => {
+    setClothingItems(prevCards => prevCards.filter(card => card._id !== idToRemove));
+  };
+
+  const logOut = () =>{
+    localStorage.removeItem('jwt');
+    setCurrentUser({})
+  }
+
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    // Check if this card is not currently liked
+    return !isLiked
+      ? // if so, send a request to add the user's id to the card's likes array
+      addCardLike(id, token)
+        .then((updatedCard) => {
+          setClothingItems((cards) =>
+            cards.map((item) => (item._id === id ? updatedCard : item))
+          );
+        })
+      : // if not, send a request to remove the user's id from the card's likes array
+      removeCardLike(id, token)
+        .then((updatedCard) => {
+          setClothingItems((cards) =>
+            cards.map((item) => (item._id === id ? updatedCard : item))
+          );
+        })
+  };
+
+  return (
+    <div className="App">
+      <CurrentUserContext.Provider value={currentUser}>
+        <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
+          <CurrentCardsContext.Provider value={{ cards, setClothingItems }}>
+
+            <EditProfileModal
+              state={editProfileModal}
+              buttonText={"Save Changes"}
+              title={"Change Profile Data"}
+              onClose={closeEditProfileModal}
+              updateUser={updateUser}
+              auth={localStorage.getItem("jwt")}
+            >
+
+            </EditProfileModal>
+
+            <RegisterModal
+              state={registerModal.opened}
+              title={"Sign Up"}
+              buttonText={"Next"}
+              onClose={closeRegisterModal}
+              openLogin={openLoginModal}
+              alternateButtonText={"Or Login"}
+              registerUser={registerUser}
+              setCurrentUser={setCurrentUser}
+            >
+
+            </RegisterModal>
+
+            <LoginModal
+              state={loginModal.opened}
+              hideLoginButton={false}
+              buttonText={"login"}
+              title={"Login"}
+              onClose={closeLoginModal}
+              alternateButtonText={"Or Register"}
+              openRegisterModal={openRegisterModal}
+              loginUser={loginUser}
+              setUser={setUser}
+            >
+
+            </LoginModal>
+
+            <DeleteModal
+              onClose={closeDeleteModal}
+              state={deleteModal.opened}
+              executeDelete={() => {
+                const token = localStorage.getItem("jwt");
+                return deleteCard(itemModal.itemInfo.id, token).then(() => {
+                  removeCardById(itemModal.itemInfo.id)
+                }).then(closeDeleteModal()).catch(console.error());
+              }}
+            >
+            </DeleteModal>
+
+            <AddItemModal
+              state={addModal.opened}
+              onClose={closeAddModal}
+              className={`modal modal_type_`}
+              title={"New Garement"}
+              buttonText={"Add Garement"}
+              apiAdd={addCard}
+              hideLoginButton={true}
+              auth={localStorage.getItem("jwt")}
+              setItemModal={setItemModal}
+            >
+            </AddItemModal>
+
+            <ItemModal
+              onClose={() => {
+                closeItemModal();
+              }}
+              handleDelete={() => { setDeleteModal({ opened: true }) }} // wtf is going on with this
+              opened={itemModal.opened}
+              itemId={itemModal.itemInfo.id}
+              itemName={itemModal.itemInfo.title}
+              itemCategory={itemModal.itemInfo.category}
+              itemImageUrl={itemModal.itemInfo.link}
+              itemOwner={itemModal.itemInfo.owner}
+            ></ItemModal>
+
+            <Header
+              addButton={
+                <AddClothsButton onclick={() => openAddModal()}></AddClothsButton>
+              }
+              logoImageUrl="../src/components/Logo.svg"
+              location={weatherData.name}
+              openRegisterModal={openRegisterModal}
+              openLoginModal={openLoginModal}
+            ></Header>
+            <Switch>
+              <Route exact path="/">
+                <Main
+                  temperature={88}
+                  cardContent={cards}
+                  toggleItemModal={toggleItemModal}
+                  onCardLike={handleCardLike}
+                ></Main>
+              </Route>
+              <Route path="/profile">
+                <Profile
+                  temperature={temperature}
+                  cardContent={cards}
+                  addButton={<AddClothsButton onclick={() => openAddModal()} className={"profile__items-AddButton"}></AddClothsButton>}
+                  toggleItemModal={toggleItemModal}
+                  onCardLike={handleCardLike}
+                  openEditModal={openEditProfileModal}
+                  logOut={logOut}
+                ></Profile>
+              </Route>
+            </Switch>
+
+            <Footer developerName={"Developed by Obbie"} year={2024}></Footer>
+          </CurrentCardsContext.Provider>
+        </CurrentTemperatureUnitContext.Provider>
+      </CurrentUserContext.Provider>
+
+    </div>
+  );
+
+
+
+};
+
+export default App;
+
+
+

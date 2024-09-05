@@ -1,0 +1,36 @@
+.weather-modal{
+    position: relative;
+    margin-top: 15px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.weather-card{
+    max-width: 100%;
+}
+.weather-temp{
+    position: absolute;
+    left: 10px;
+    top: 33%;
+    color: white;
+}
+
+@media only screen and (min-width: 900px) {
+    .weather-temp{
+        top: 37%;
+        left: 3%;
+    }
+}
+
+@media screen and (max-width: 698px) {
+    .weather-temp{
+        top: 28%;
+        left: 3%;
+    }
+}
+
+@media screen and (maxc-width: 597px) {
+    .weather-temp{
+        top: -10;
+        margin: auto;
+    }
+}

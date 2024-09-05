@@ -1,0 +1,170 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between; 
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.header__section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style-type: none;
+    column-gap: 20px;
+    padding: 0px;
+    margin: 0px;
+    justify-content: center;
+
+}
+
+.header__text {
+    background-color: white;
+    color: black;
+    font-family: "Cabinet Grotesk";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    margin: 0px;
+}
+
+.header__link{
+    display:flex;
+    flex-direction: row;
+    column-gap: 20px;
+    align-items: center;
+    text-decoration: none;
+
+}
+
+.header__add-button {
+    border: 0px;
+    cursor: pointer;
+}
+
+.header__registerUser{
+    border: 0px;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.header__text_margin_left {
+    margin-left: 30px;
+}
+
+.header__section_margin_left {
+    margin-left: 30px
+}
+
+.header__profile-image{
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+}
+
+.header__default-image {
+    width: 40px;
+    height: 40px;
+    position: relative;
+  }
+  
+  .header__outer-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #CCCCCC;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  .header__inner-circle {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background-color: #AAAAAA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .header__inner-circle span {
+    font-size: 18px;
+    font-family: Arial;
+    color: #333333;
+  }
+
+@media only screen and (max-width: 570px) {
+    .header__section {
+        column-gap: 0px;
+    }
+
+    .header__profile-image {
+        margin-left: 3px;
+    }
+}
+
+.header__switch {
+    display: inline-block;
+    cursor: pointer;
+    margin-top: 10px;
+    position: relative;
+}
+
+.header__switch-checkbox {
+    display: none;
+}
+
+.header__switch-button {
+    width: 60px;
+    height: 30px;
+    background-color: #E5E4E2;
+    border-radius: 25px;
+    position: relative;
+    transition: background 0.3s;
+    border: 2px solid transparent;
+    transition: border-color 0.5s ease-in-out; 
+}
+
+.header__switch__text{
+    position: absolute;
+    top: 7px;
+    left: 8px;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.header__switch-circle {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 31px;
+    height: 32px;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    transition: left 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+}
+
+.header__switch-button:hover{
+    border-color: black;
+}
+
+.header__switch-checkbox:checked+.header__switch-button .header__switch-circle {
+    left: 30px;
+}
+
+.header__switch-checkbox:checked+.header__switch-button {
+    background-color: #D3D3D3;
+}

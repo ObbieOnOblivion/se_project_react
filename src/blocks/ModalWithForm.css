@@ -1,0 +1,130 @@
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(10px);
+    }
+  }
+  
+  .form__shake {
+    animation: shake 1.3s ease;
+    border: 2px solid red;
+  }
+  
+  .form {
+      height: auto;
+      width: 496px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      position: relative;
+      align-items: flex-start;
+      border-radius: 20px;
+      transition: border 0.3s ease;
+  }
+  
+  .form__text-label {
+      width: 100%;
+      text-align: left;
+  }
+  
+  .form__radio-label {
+      display: flex;
+      flex-direction: row-reverse;
+  }
+  
+  .form__close-button {
+      position: absolute;
+      top: 20px;
+      right: 28px;
+      width: 20px;
+      height: 20px;
+      background-color: transparent;
+      background-image: url(../images/grey-close-button.png);
+      background-repeat: none;
+      background-size: cover;
+      border: none;
+  }
+  
+  .form__text-input {
+      margin-bottom: 24px;
+      width: 100%;
+      height: 23px;
+      border: none;
+      border-bottom: solid 1px;
+  }
+  
+  /* we need to edit this */
+  .modal_close {
+      visibility: hidden;
+  }
+  
+  .form__radio-input {
+      margin-right: 4px;
+  }
+  
+  .form__inputs {
+      text-align: left;
+  }
+  
+  .form__buttons {
+      display: flex;
+      flex-direction: row-reverse;
+  }
+  
+  .form__alternative-button {
+      margin-top: 19px;
+      margin-left: 5px;
+      background-color: transparent;
+      border: none;
+      max-width: 120px;
+      height: 20px;
+      align-self: center;
+      visibility: unset;
+      font-weight: 700;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.30);
+  }
+  
+  .form__alternative-button_hidden {
+      visibility: hidden;
+  }
+  
+  .form__submit-button {
+      width: 124px;
+      color: white;
+      font-size: 16px;
+      background-color: rgba(0, 0, 0, 0.30);
+      border-radius: 4px;
+      border: solid 1px transparent;
+      height: 30px;
+      margin-top: 20px;
+  }
+  
+  .form__radio-input_margin-bottom_32px {
+      margin-bottom: 32px;
+  }
+  
+  .modal {
+      width: 100%;
+      height: 100%;
+  }
+  
+  input {
+      margin: 0px;
+  }
+  
+  h3 {
+      margin: 0px;
+      margin-bottom: 24px;
+  }
+  
+  label {
+      margin-bottom: 8px;
+  }
+  

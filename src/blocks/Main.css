@@ -1,0 +1,27 @@
+ul {
+    padding: 0px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin: 0px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-auto-rows: minmax(100px, auto); 
+    gap: 10px; 
+    margin:auto;
+
+}
+
+.main__text{
+    text-align: left;
+    margin-left: 40px;
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+@media only screen and (max-width: 1380px) {
+    ul{
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+

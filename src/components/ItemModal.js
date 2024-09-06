@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import useEscape from "../utils/useEscape"; // why does this work across multiple modals
+import useEscape from "../utils/useEscape";
 import CurrentUserContext from '../context/CurrentUserContext';
 
 const ItemModal = (props) => {

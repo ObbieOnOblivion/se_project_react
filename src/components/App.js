@@ -34,7 +34,7 @@ const App = () => {
   const [weatherData, setWeatherData] = useState({});
   const [temperature, setTemperature] = useState(0);
   const [currentTemperatureUnit, setCurrentTempUnit] = useState("F");
-  const [cards, setClothingItems] = useState([]); // this makes no sense (the use of cards var name)
+  const [cards, setClothingItems] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
@@ -161,16 +161,15 @@ const App = () => {
 
   const handleCardLike = ({ id, isLiked }) => {
     const token = localStorage.getItem("jwt");
-    // Check if this card is not currently liked
     return !isLiked
-      ? // if so, send a request to add the user's id to the card's likes array
+      ?
       addCardLike(id, token)
         .then((updatedCard) => {
           setClothingItems((cards) =>
             cards.map((item) => (item._id === id ? updatedCard : item))
           );
         })
-      : // if not, send a request to remove the user's id from the card's likes array
+      :
       removeCardLike(id, token)
         .then((updatedCard) => {
           setClothingItems((cards) =>
@@ -252,7 +251,7 @@ const App = () => {
               onClose={() => {
                 closeItemModal();
               }}
-              handleDelete={() => { setDeleteModal({ opened: true }) }} // wtf is going on with this
+              handleDelete={() => { setDeleteModal({ opened: true }) }}
               opened={itemModal.opened}
               itemId={itemModal.itemInfo.id}
               itemName={itemModal.itemInfo.title}
@@ -273,7 +272,7 @@ const App = () => {
             <Switch>
               <Route exact path="/">
                 <Main
-                  temperature={88}
+                  temperature={temperature}
                   cardContent={cards}
                   toggleItemModal={toggleItemModal}
                   onCardLike={handleCardLike}

@@ -39,8 +39,8 @@ const Main = (props) => {
             imageUrl={item.imageUrl}
             likes={item.likes}
             onCardLike={props.onCardLike}
-            handleClick={(x, y, z) => { // better naming 
-              props.toggleItemModal(item._id, x, y, z, item.owner);
+            handleClick={(name, imageUrl, weather) => {
+              props.toggleItemModal(item._id, name, imageUrl, weather, item.owner);
             }}
           ></ItemCard>
         );

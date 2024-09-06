@@ -108,8 +108,8 @@ const inputElements = [ // better name for this
   },
 ];
 
-const longitude = 22.890533;
-const latitude = -109.91674;
+const latitude = 22.890533;
+const longitude= -109.91674;
 const cardConditions = {
   day: {
     sunny: sunnyDayImage,

@@ -39,6 +39,7 @@ const AddItemModal = (props) => {
   const submitFunction = () => {
     props.apiAdd(modalData, props.auth).then((response) => {
       modalData.owner = response.owner;
+      modalData._id = response._id
       setClothingItems(prevState => ([
         ...prevState,
         modalData

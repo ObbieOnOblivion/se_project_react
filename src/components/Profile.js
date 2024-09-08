@@ -1,28 +1,32 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import ItemCard from "./ItemCard";
 import SideBar from './SideBar';
 import ClothesSection from './ClothesSection';
+import CurrentUserContext from '../context/CurrentUserContext';
 
 const Profile = (props) => {
+  const currentUser = useContext(CurrentUserContext);
 
   const Cards = () => {
     const cardItems = props.cardContent.slice().reverse();
 
     return cardItems.map((item) => {
-      return (
-        <ItemCard
-          id={item._id}
-          key={item._id}
-          name={item.name}
-          weather={item.weather}
-          imageUrl={item.imageUrl}
-          likes={item.likes}
-          onCardLike={props.onCardLike}
-          handleClick={(name, imageUrl, weather) => {
-            props.toggleItemModal(item._id, name, imageUrl, weather, item.owner);
-          }}
-        ></ItemCard>
-      );
+      if (item.owner == currentUser._id){
+        return (
+          <ItemCard
+            id={item._id}
+            key={item._id}
+            name={item.name}
+            weather={item.weather}
+            imageUrl={item.imageUrl}
+            likes={item.likes}
+            onCardLike={props.onCardLike}
+            handleClick={(name, imageUrl, weather) => {
+              props.toggleItemModal(item._id, name, imageUrl, weather, item.owner);
+            }}
+          ></ItemCard>
+        );
+      }
     });
   }
 

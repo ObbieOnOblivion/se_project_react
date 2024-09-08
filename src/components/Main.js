@@ -4,35 +4,34 @@ import React, { useContext } from 'react';
 import ItemCard from "./ItemCard";
 import WeatherCard from "./WeatherCard";
 import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext";
-import CurrentUserContext from '../context/CurrentUserContext';
 const Main = (props) => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext);
-  const currentUser = useContext(CurrentUserContext);
 
   const generateCards = () => {
 
     const cardItems = props.cardContent.slice().reverse();
-
     return cardItems.map((item) => {
       const weatherCategory = (temperature, unit) => {
         if (unit === "C") {
           return temperature >= 30
             ? "hot"
-            : temperature >= 20 && temperature < 30
+            : temperature >= 20
               ? "warm"
               : "cold";
         } else {
           return temperature >= 86
             ? "hot"
-            : temperature >= 66 && temperature <= 85
+            : temperature >= 66
               ? "warm"
               : "cold";
         }
+        
       };
-      if ((item.weather === weatherCategory(props.temperature, currentTemperatureUnit)) && item.owner == currentUser._id) {
-        console.log(item.owner);
+      if ((item.weather === weatherCategory(props.temperature, currentTemperatureUnit))) {
+
         return (
           <ItemCard
+            key={item._id}
             id={item._id}
             name={item.name}
             weather={item.weather}

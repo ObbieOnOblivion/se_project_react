@@ -27,7 +27,7 @@ const ItemCard = (props) => {
     props.onCardLike({id:props.id, isLiked:isLiked}).then(() =>{
       setIsLiked(prevIsLiked => !prevIsLiked);
     }).catch((error) =>{
-      console.log(error);
+      console.log(error)
     })
   };
 

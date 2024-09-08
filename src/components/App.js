@@ -34,7 +34,7 @@ const App = () => {
   const [weatherData, setWeatherData] = useState({});
   const [temperature, setTemperature] = useState(0);
   const [currentTemperatureUnit, setCurrentTempUnit] = useState("F");
-  const [cards, setClothingItems] = useState([]);
+  const [cards, setClothingItems] = useState([]); 
   const [currentUser, setCurrentUser] = useState({});
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);

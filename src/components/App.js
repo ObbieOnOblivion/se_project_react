@@ -50,7 +50,7 @@ const App = () => {
         }
       }
     ).catch(error => {
-      throw new Error(error);
+      console.error(error);
     })
   }
 
@@ -65,7 +65,7 @@ const App = () => {
         owner: item.owner,
         likes: item.likes
       }));
-      setClothingItems(updatedCards);
+      setClothingItems(response);
     };
     fetchClothesData();
   }, []);
@@ -190,6 +190,7 @@ const App = () => {
               title={"Change Profile Data"}
               onClose={closeEditProfileModal}
               updateUser={updateUser}
+              setCurrentUser={setCurrentUser}
               auth={localStorage.getItem("jwt")}
             >
 

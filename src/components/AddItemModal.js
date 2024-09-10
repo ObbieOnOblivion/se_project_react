@@ -31,9 +31,20 @@ const AddItemModal = (props) => {
       setModalData({ _id: findId(cards), "name": NaN, "weather": NaN, "imageUrl": NaN, "likes":[] });
     }
   }, [props.state]);
+  //import useForm
+  // const {values, handleChange, setValues} = useForm({})
 
   const handleInputChange = (event, name) => {
-    modalData[name] = event.target.value;
+    // modalData[name] = event.target.value;
+    // reviwer rejected the above approach
+    //ive used the method bellow because everytime i use the setModalData it kicks me out of the input field
+
+    setModalData((data) => {
+      return {
+        ...data,
+        [name]: event.target.value,
+      };
+    });
   };
 
   const submitFunction = () => {

@@ -59,8 +59,8 @@ const inputElements = [ // better name for this
     type: "text",
     placeholder: "Name",
     name: "name",
-    onChange: () => { },
-    onClick: () => { },
+    // onChange: () => { },
+    // onClick: () => { },
   },
   {
     id: "url-input",
@@ -70,8 +70,8 @@ const inputElements = [ // better name for this
     type: "url",
     placeholder: "Image URL",
     name: "imageUrl",
-    onChange: () => { },
-    onClick: () => { },
+    // onChange: () => { },
+    // onClick: () => { },
   },
   {
     id: "hot button",
@@ -81,8 +81,8 @@ const inputElements = [ // better name for this
     type: "radio",
     name: "weather",
     value: "hot",
-    onChange: () => { },
-    onClick: () => { },
+    // onChange: () => { },
+    // onClick: () => { },
   },
   {
     id: "warm-button",
@@ -92,8 +92,8 @@ const inputElements = [ // better name for this
     type: "radio",
     name: "weather",
     value: "warm",
-    onChange: () => { },
-    onClick: () => { },
+    // onChange: () => { },
+    // onClick: () => { },
   },
   {
     id: "cold-button",
@@ -103,8 +103,8 @@ const inputElements = [ // better name for this
     type: "radio",
     name: "weather",
     value: "cold",
-    onChange: () => { },
-    onClick: () => { },
+    // onChange: () => { },
+    // onClick: () => { },
   },
 ];
 
@@ -138,9 +138,9 @@ const editProfileModal = [
     type: "text",
     placeholder: "Name",
     name: "name",
-    required: false,
-    onChange: () => { },
-    onClick: () => { },
+    required: true,
+    // onChange: () => { },
+    // onClick: () => { },
   },
   {
     id: "avatar-input",
@@ -150,9 +150,9 @@ const editProfileModal = [
     type: "url",
     placeholder: "Avatar",
     name: "avatar",
-    required: false,
-    onChange: () => { },
-    onClick: () => { },
+    required: true,
+    // onChange: () => { },
+    // onClick: () => { },
   }
 
 ]

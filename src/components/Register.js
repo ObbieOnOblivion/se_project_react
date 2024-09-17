@@ -1,37 +1,34 @@
 import ModalWithForm from './ModalWithForm';
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { registerInputComponents } from '../utils/constants';
-
+import useForm from "../hooks/useForm";
 
 const RegisterModal = (props) => {
-    const [registerLabels, setRegisterLabels] = useState({});
+    const { values, handleChange, setValues } = useForm({
+        Email: "",
+        Password: "",
+        Name: "",
+        Avatar: ""
+    });
 
     useEffect(() => {
-        const labels = {};
+        const initialValues = {};
         registerInputComponents.forEach((item) => {
-            labels[item.labelName] = "";
+            initialValues[item.name] = "";
         });
-        setRegisterLabels(labels);
-    }, [registerInputComponents]);
+        setValues(initialValues);
+    }, []);
 
     const submitFunction = () => {
-        props.registerUser(registerLabels.Email, registerLabels.Password, registerLabels.Name, 
-            registerLabels.Avatar
-        ).then(
-            (res) => {
-                console.log(res);
+        props.registerUser(values.Email, values.Password, values.Name, values.Avatar)
+            .then((res) => {
                 props.setCurrentUser(res);
                 props.onClose();
-            }
-        )
-    }
+            })
+            .catch((error) => console.error("Registration error: ", error));
+    };
 
     const InputComponent = (props) => {
-
-        const handleInputChange = (event) => {
-            registerLabels[event.target.name] = event.target.value
-        };
-
         return (
             <label className={props.labelClassName}>
                 {props.labelName}
@@ -41,15 +38,14 @@ const RegisterModal = (props) => {
                     type={props.type}
                     placeholder={props.placeholder}
                     name={props.name}
-                    value={props.value}
-                    onChange={handleInputChange}
+                    value={values[props.name] || ""}
+                    onChange={handleChange}
                     onClick={props.onclick}
                     id={props.id}
-                ></input>
+                />
             </label>
         );
     };
-
 
     return (
         <ModalWithForm
@@ -59,32 +55,25 @@ const RegisterModal = (props) => {
             state={props.state}
             title={props.title}
             buttonText={props.buttonText}
-            handleInputChange={NaN}
             openAlternativeModal={props.openLogin}
             alternateButtonText={props.alternateButtonText}
-            children={registerInputComponents.map((item) => {
-                return (
-                    <InputComponent
-                        key={item.id}
-                        labelName={item.labelName}
-                        id={item.id}
-                        required={item.required}
-                        labelClassName={item.labelClassName}
-                        inputClassName={item.inputClassName}
-                        type={item.type}
-                        placeholder={item.placeholder}
-                        name={item.name}
-                        value={item.value}
-                        onChange={NaN}
-                        onClick={(item.onClick)}
-                    ></InputComponent>
-                );
-            })}
-        >
+            children={registerInputComponents.map((item) => (
+                <InputComponent
+                    key={item.id}
+                    labelName={item.labelName}
+                    id={item.id}
+                    required={item.required}
+                    labelClassName={item.labelClassName}
+                    inputClassName={item.inputClassName}
+                    type={item.type}
+                    placeholder={item.placeholder}
+                    name={item.name}
+                    value={values[item.name]}
+                    onClick={item.onClick}
+                />
+            ))}
+        />
+    );
+};
 
-
-        </ModalWithForm>
-    )
-}
-
-export default RegisterModal
+export default RegisterModal;

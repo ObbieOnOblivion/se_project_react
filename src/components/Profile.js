@@ -5,13 +5,13 @@ import ClothesSection from './ClothesSection';
 import CurrentUserContext from '../context/CurrentUserContext';
 
 const Profile = (props) => {
-  const currentUser = useContext(CurrentUserContext);
-
+  const currentUserContext = useContext(CurrentUserContext);
+  const registeredUser = currentUserContext.currentUser._id
   const Cards = () => {
     const cardItems = props.cardContent.slice().reverse();
 
     return cardItems.map((item) => {
-      if (item.owner == currentUser._id){
+      if (item.owner == registeredUser){
         return (
           <ItemCard
             id={item._id}

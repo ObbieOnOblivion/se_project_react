@@ -4,7 +4,7 @@ import CurrentUserContext from '../context/CurrentUserContext';
 
 const ItemModal = (props) => {
 
-  const currentUser = useContext(CurrentUserContext);
+  const currentUserContext = useContext(CurrentUserContext);
 
   const handleModalClick = (event) => {
     if (event.target === event.currentTarget) {
@@ -17,7 +17,7 @@ const ItemModal = (props) => {
     props.onClose();
   }
 
-  const isOwned = props.itemOwner != currentUser._id
+  const isOwned = props.itemOwner != currentUserContext.currentUser._id
 
   useEscape(ItemModal, props.onClose);
 

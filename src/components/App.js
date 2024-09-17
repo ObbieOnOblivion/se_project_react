@@ -21,6 +21,10 @@ import {
 import LoginModal from "./Login";
 import RegisterModal from "./Register";
 import EditProfileModal from "./EditProfileModal";
+import ProtectedRoute from "../utils/ProtectedRoute";
+
+//input radio components dont work on add item modal
+//use form acts wierd with input components 
 
 const App = () => {
   const [itemModal, setItemModal] = useState({
@@ -34,12 +38,12 @@ const App = () => {
   const [weatherData, setWeatherData] = useState({});
   const [temperature, setTemperature] = useState(0);
   const [currentTemperatureUnit, setCurrentTempUnit] = useState("F");
-  const [cards, setClothingItems] = useState([]); 
+  const [cards, setClothingItems] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
 
-  const setUser = (token) =>{
+  const setUser = (token) => {
     checkUser(token).then(
       (response) => {
         if (response._id) {
@@ -74,7 +78,7 @@ const App = () => {
     const token = localStorage.getItem("jwt");
     if (token) {
       setUser(token)
-    } 
+    }
 
   }, []);
 
@@ -154,7 +158,7 @@ const App = () => {
     setClothingItems(prevCards => prevCards.filter(card => card._id !== idToRemove));
   };
 
-  const logOut = () =>{
+  const logOut = () => {
     localStorage.removeItem('jwt');
     setCurrentUser({})
   }
@@ -180,7 +184,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
         <CurrentTemperatureUnitContext.Provider value={{ currentTemperatureUnit, handleToggleSwitchChange }}>
           <CurrentCardsContext.Provider value={{ cards, setClothingItems }}>
 
@@ -279,17 +283,20 @@ const App = () => {
                   onCardLike={handleCardLike}
                 ></Main>
               </Route>
-              <Route path="/profile">
-                <Profile
-                  temperature={temperature}
-                  cardContent={cards}
-                  addButton={<AddClothsButton onclick={() => openAddModal()} className={"profile__items-AddButton"}></AddClothsButton>}
-                  toggleItemModal={toggleItemModal}
-                  onCardLike={handleCardLike}
-                  openEditModal={openEditProfileModal}
-                  logOut={logOut}
-                ></Profile>
-              </Route>
+              <ProtectedRoute
+                  path="/profile"
+                  component={() => (
+                    <Profile
+                      temperature={temperature}
+                      cardContent={cards}
+                      addButton={<AddClothsButton onclick={() => openAddModal()} className={"profile__items-AddButton"}></AddClothsButton>}
+                      toggleItemModal={toggleItemModal}
+                      onCardLike={handleCardLike}
+                      openEditModal={openEditProfileModal}
+                      logOut={logOut}
+                    />
+                  )}
+                />
             </Switch>
 
             <Footer developerName={"Developed by Obbie"} year={2024}></Footer>

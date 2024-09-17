@@ -17,7 +17,8 @@ const renderLikeImage = (image) =>{
 
 const ItemCard = (props) => {
   const [isLiked, setIsLiked] = useState(false);
-  const currentUser = useContext(CurrentUserContext);
+  const currentUserContext = useContext(CurrentUserContext);
+  const currentUser = currentUserContext.currentUser;
 
   useEffect(() =>{  
     setIsLiked(props.likes.includes(currentUser._id));

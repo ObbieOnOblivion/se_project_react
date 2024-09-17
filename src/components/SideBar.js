@@ -6,8 +6,8 @@ const returnImage = (link) => {
 };
 
 const DefaultImage = () => {
-  const currentUser = useContext(CurrentUserContext);
-
+  const currentUserContext = useContext(CurrentUserContext);
+  const currentUser = currentUserContext.currentUser;
   return (
     <div className="header__default-image">
       <div className="header__outer-circle">
@@ -20,13 +20,14 @@ const DefaultImage = () => {
 };
 
 const SideBar = (props) => {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUserContext = useContext(CurrentUserContext);
+  const currentUser = currentUserContext.currentUser;
 
   return (
     <div className="sidebar">
       <div className="profile__avatar">
         <h3 className="profile__avatar-text">{currentUser.name}</h3>
-        {currentUser.avatar ? returnImage(currentUser.avatar) : <DefaultImage />}
+        {currentUser.avatar ? returnImage(currentUser.avatar) : <DefaultImage/>}
       </div>
       <button
         className={`sidebar__button ${currentUser._id ? "" : "sidebar__button_hidden"}`}

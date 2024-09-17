@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import profileLogo from "../images/terrence.svg";
 import companyLogo from "../images/Logo.svg";
 import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext";
 import CurrentUserContext from '../context/CurrentUserContext';
@@ -22,13 +21,14 @@ const HeaderButton = (props) =>{
 }
 
 const DefaultImage = (props) => {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUserContext = useContext(CurrentUserContext);
+  const user = currentUserContext.currentUser;
 
   return (
     <div className="header__default-image">
       <div className="header__outer-circle">
         <div className="header__inner-circle">
-          <span>{currentUser.name?currentUser.name[0]:"N"}</span>
+          <span>{user.name?user.name[0]:"N"}</span>
         </div>
       </div>
     </div>
@@ -38,6 +38,7 @@ const DefaultImage = (props) => {
 const Header = (props) => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext);
   const currentUser = useContext(CurrentUserContext);
+  const user = currentUser.currentUser;
 
   return (
     <header className="header">
@@ -60,11 +61,11 @@ const Header = (props) => {
           {props.toggleButton}
         </label>
 
-        {currentUser._id? props.addButton:<HeaderButton  onClick={props.openRegisterModal} buttonText={"Sign Up"}></HeaderButton>}
-        <h3 className="header__text">{currentUser.name ? currentUser.name : 
+        {user._id? props.addButton:<HeaderButton  onClick={props.openRegisterModal} buttonText={"Sign Up"}></HeaderButton>}
+        <h3 className="header__text">{user.name ? user.name : 
             <HeaderButton buttonText={"Log In"} onClick={props.openLoginModal}></HeaderButton>}</h3>
         <Link className="header__link" to="/profile">
-          {currentUser.avatar ? returnImage(currentUser.avatar, "Profile Logo", "", "header__profile-image") : DefaultImage()}
+          {user.avatar ? returnImage(user.avatar, "Profile Logo", "", "header__profile-image") : DefaultImage()}
         </Link>
 
       </div>

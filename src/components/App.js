@@ -23,8 +23,7 @@ import RegisterModal from "./Register";
 import EditProfileModal from "./EditProfileModal";
 import ProtectedRoute from "../utils/ProtectedRoute";
 
-//input radio components dont work on add item modal
-//use form acts wierd with input components 
+//after creatting a new user the addItem does not work its throws an auth error
 
 const App = () => {
   const [itemModal, setItemModal] = useState({
@@ -80,7 +79,7 @@ const App = () => {
       setUser(token)
     }
 
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     fetchApiInfo()
@@ -164,6 +163,7 @@ const App = () => {
   }
 
   const handleCardLike = ({ id, isLiked }) => {
+    console.log("we got here ")
     const token = localStorage.getItem("jwt");
     return !isLiked
       ?
@@ -209,6 +209,8 @@ const App = () => {
               alternateButtonText={"Or Login"}
               registerUser={registerUser}
               setCurrentUser={setCurrentUser}
+              loginUser={loginUser}
+              setUser={setUser}
             >
 
             </RegisterModal>

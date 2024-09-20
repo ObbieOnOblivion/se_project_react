@@ -169,7 +169,7 @@ const AddItemModal = (props) => {
   // }, [props.state, cards, setValues]);
 
   const submitFunction = () => {
-    console.log(values);
+    console.log(values, props.auth);
     props.apiAdd(values, props.auth)
       .then((response) => {
         const updatedData = {

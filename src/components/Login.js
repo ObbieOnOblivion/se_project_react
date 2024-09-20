@@ -25,25 +25,6 @@ const LoginModal = (props) => {
         .catch(error => console.error("Login error: ", error));
     };
 
-    const InputComponent = (props) => {
-        return (
-            <label className={props.labelClassName}>
-                {props.labelName}
-                <input
-                    required={props.required}
-                    className={props.inputClassName}
-                    type={props.type}
-                    placeholder={props.placeholder}
-                    name={props.name}
-                    value={values[props.name] || ""}
-                    onChange={handleChange}
-                    onClick={props.onClick}
-                    id={props.id}
-                />
-            </label>
-        );
-    };
-
     return (
         <ModalWithForm
             submitHandler={submitFunction}
@@ -66,11 +47,31 @@ const LoginModal = (props) => {
                     type={item.type}
                     placeholder={item.placeholder}
                     name={item.name}
-                    value={values[item.name]}
+                    value={values[props.name]}
                     onClick={item.onClick}
+                    onChange={handleChange}
                 />
             ))}
         />
+    );
+};
+
+const InputComponent = (props) => {
+    return (
+        <label className={props.labelClassName}>
+            {props.labelName}
+            <input
+                required={props.required}
+                className={props.inputClassName}
+                type={props.type}
+                placeholder={props.placeholder}
+                name={props.name}
+                value={props.value}
+                onChange={props.onChange}
+                onClick={props.onClick}
+                id={props.id}
+            />
+        </label>
     );
 };
 

@@ -22,29 +22,17 @@ const RegisterModal = (props) => {
     const submitFunction = () => {
         props.registerUser(values.Email, values.Password, values.Name, values.Avatar)
             .then((res) => {
+                console.log(res);
                 props.setCurrentUser(res);
                 props.onClose();
+            }).then(() =>{
+                props.loginUser(values.Email, values.Password).then(data => {
+                    localStorage.setItem("jwt", data.token);
+                    console.log(data.token);
+                    props.setUser(data.token);
+                })
             })
             .catch((error) => console.error("Registration error: ", error));
-    };
-
-    const InputComponent = (props) => {
-        return (
-            <label className={props.labelClassName}>
-                {props.labelName}
-                <input
-                    required={props.required}
-                    className={props.inputClassName}
-                    type={props.type}
-                    placeholder={props.placeholder}
-                    name={props.name}
-                    value={values[props.name] || ""}
-                    onChange={handleChange}
-                    onClick={props.onclick}
-                    id={props.id}
-                />
-            </label>
-        );
     };
 
     return (
@@ -70,10 +58,29 @@ const RegisterModal = (props) => {
                     name={item.name}
                     value={values[item.name]}
                     onClick={item.onClick}
+                    onChange={handleChange}
                 />
             ))}
         />
     );
 };
 
+const InputComponent = (props) => {
+    return (
+        <label className={props.labelClassName}>
+            {props.labelName}
+            <input
+                required={props.required}
+                className={props.inputClassName}
+                type={props.type}
+                placeholder={props.placeholder}
+                name={props.name}
+                value={props.value}
+                onChange={props.onChange}
+                onClick={props.onclick}
+                id={props.id}
+            />
+        </label>
+    );
+};
 export default RegisterModal;

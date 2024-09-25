@@ -14,17 +14,16 @@ const EditProfileModal = (props) => {
         avatar: ""
     });
 
-    // Only set values when the component first mounts or when user changes
     useEffect(() => {
         if (user && values.name === "" && values.avatar === "") {
             setValues({ name: user.name || "", avatar: user.avatar || "" });
         }
-    }, []);
+    }, [user]);
 
     const submitFunction = () => {
         props.updateUser(values, props.auth)
             .then((response) => {
-                currentUserContext.setCurrentUser(response.name, response.avatar);
+                currentUserContext.setCurrentUser(response);
             })
             .then(() => {
                 props.onClose();

@@ -25,11 +25,10 @@ const ItemCard = (props) => {
   }, [])
 
   const toggleLike = () => {
-    console.log("we at least toggled ")
     props.onCardLike({id:props.id, isLiked:isLiked}).then(() =>{
       setIsLiked(prevIsLiked => !prevIsLiked);
     }).catch((error) =>{
-      console.log(error)
+      console.error(error)
     })
   };
 

@@ -112,6 +112,7 @@ const latitude = 22.890533;
 const longitude= -109.91674;
 const cardConditions = {
   day: {
+    clear: sunnyDayImage,
     sunny: sunnyDayImage,
     rainy: rainyDayImage,
     snowy: snowyDayImage,

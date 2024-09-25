@@ -7,6 +7,3 @@ export default function useForm(inputValues) {
   };
   return { values, handleChange, setValues };
 }
-//eslint {dependancy array problems}
-//command . enter inbetween []
-// should not define components in other components 

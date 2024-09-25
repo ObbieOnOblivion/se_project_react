@@ -6,7 +6,6 @@ import WeatherCard from "./WeatherCard";
 import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext";
 const Main = (props) => {
   const { currentTemperatureUnit, handleToggleSwitchChange } = useContext(CurrentTemperatureUnitContext);
-  // console.log("this is repeating")
   const generateCards = () => {
 
     const cardItems = props.cardContent.slice().reverse();

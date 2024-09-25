@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const isAuthenticated = () => {
-  // Replace this with your actual authentication logic
   return localStorage.getItem('jwt') !== null;
 };
 

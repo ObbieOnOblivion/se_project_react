@@ -8,7 +8,7 @@ import AddClothsButton from "./AddClothsButton";
 import Footer from "./Footer";
 import ItemModal from "./ItemModal";
 import DeleteModal from "./DeleteModal";
-import fetchApiInfo from "../utils/WeatherApi";
+import fetchWeatherApiInfo from "../utils/WeatherApi";
 import CurrentTemperatureUnitContext from "../context/CurrentTemperatureUnitContext"
 import CurrentCardsContext from "../context/CardsContext";
 import CurrentUserContext from "../context/CurrentUserContext";
@@ -22,8 +22,6 @@ import LoginModal from "./Login";
 import RegisterModal from "./Register";
 import EditProfileModal from "./EditProfileModal";
 import ProtectedRoute from "../utils/ProtectedRoute";
-
-//after creatting a new user the addItem does not work its throws an auth error
 
 const App = () => {
   const [itemModal, setItemModal] = useState({
@@ -42,7 +40,9 @@ const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
 
-  const setUser = (token) => {
+  // if errors occures toy need to display error messages to the user or retrying the operation
+
+  const updateUser = (token) => {
     checkUser(token).then(
       (response) => {
         if (response._id) {
@@ -59,16 +59,12 @@ const App = () => {
 
   useEffect(() => {
     const fetchClothesData = async () => {
-      const response = await getCards();
-      const updatedCards = response.map(item => ({
-        _id: item._id,
-        name: item.name,
-        weather: item.weather,
-        imageUrl: item.imageUrl,
-        owner: item.owner,
-        likes: item.likes
-      }));
-      setClothingItems(response);
+      try {
+        const response = await getCards();
+        setClothingItems(response);
+      } catch (error) {
+        console.error('Error fetching clothes data:', error);
+      }
     };
     fetchClothesData();
   }, []);
@@ -76,14 +72,15 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      setUser(token)
+      updateUser(token)
     }
 
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
-    fetchApiInfo()
+    fetchWeatherApiInfo()
       .then((data) => {
+        console.log(data.weather[0].main);
         setWeatherData(data);
         setTemperature(data.main.temp);
       })
@@ -163,7 +160,6 @@ const App = () => {
   }
 
   const handleCardLike = ({ id, isLiked }) => {
-    console.log("we got here ")
     const token = localStorage.getItem("jwt");
     return !isLiked
       ?
@@ -210,7 +206,7 @@ const App = () => {
               registerUser={registerUser}
               setCurrentUser={setCurrentUser}
               loginUser={loginUser}
-              setUser={setUser}
+              setUser={updateUser}
             >
 
             </RegisterModal>
@@ -224,7 +220,7 @@ const App = () => {
               alternateButtonText={"Or Register"}
               openRegisterModal={openRegisterModal}
               loginUser={loginUser}
-              setUser={setUser}
+              setUser={updateUser}
             >
 
             </LoginModal>
@@ -236,7 +232,9 @@ const App = () => {
                 const token = localStorage.getItem("jwt");
                 return deleteCard(itemModal.itemInfo.id, token).then(() => {
                   removeCardById(itemModal.itemInfo.id)
-                }).then(closeDeleteModal()).catch(console.error());
+                })
+                .then(closeDeleteModal())
+                .catch(console.error());
               }}
             >
             </DeleteModal>
@@ -287,6 +285,7 @@ const App = () => {
               </Route>
               <ProtectedRoute
                   path="/profile"
+                  checkUser={checkUser}
                   component={() => (
                     <Profile
                       temperature={temperature}

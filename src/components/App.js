@@ -21,7 +21,7 @@ import {
 import LoginModal from "./Login";
 import RegisterModal from "./Register";
 import EditProfileModal from "./EditProfileModal";
-import ProtectedRoute from "../utils/ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   const [itemModal, setItemModal] = useState({
@@ -40,9 +40,7 @@ const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [editProfileModal, setEditProfileModal] = useState(false);
 
-  // if errors occures toy need to display error messages to the user or retrying the operation
-
-  const updateUser = (token) => {
+  const VerifyToken = (token) => {
     checkUser(token).then(
       (response) => {
         if (response._id) {
@@ -72,7 +70,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
-      updateUser(token)
+      VerifyToken(token);
     }
 
   }, []);

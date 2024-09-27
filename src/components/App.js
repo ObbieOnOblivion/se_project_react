@@ -78,7 +78,6 @@ const App = () => {
   useEffect(() => {
     fetchWeatherApiInfo()
       .then((data) => {
-        console.log(data.weather[0].main);
         setWeatherData(data);
         setTemperature(data.main.temp);
       })
@@ -204,7 +203,7 @@ const App = () => {
               registerUser={registerUser}
               setCurrentUser={setCurrentUser}
               loginUser={loginUser}
-              setUser={updateUser}
+              setUser={VerifyToken}
             >
 
             </RegisterModal>
@@ -218,7 +217,7 @@ const App = () => {
               alternateButtonText={"Or Register"}
               openRegisterModal={openRegisterModal}
               loginUser={loginUser}
-              setUser={updateUser}
+              setUser={VerifyToken}
             >
 
             </LoginModal>

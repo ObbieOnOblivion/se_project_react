@@ -21,7 +21,7 @@ import {
 import LoginModal from "./Login";
 import RegisterModal from "./Register";
 import EditProfileModal from "./EditProfileModal";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "../utils/ProtectedRoute";
 
 const App = () => {
   const [itemModal, setItemModal] = useState({

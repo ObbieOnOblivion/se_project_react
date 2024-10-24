@@ -20,7 +20,7 @@ const HeaderButton = (props) =>{
   )
 }
 
-const DefaultImage = (props) => {
+const DefaultImage = () => {
   const currentUserContext = useContext(CurrentUserContext);
   const user = currentUserContext.currentUser;
 

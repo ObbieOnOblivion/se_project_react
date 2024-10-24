@@ -18,7 +18,6 @@ const LoginModal = (props) => {
     }, []);
 
     const submitFunction = () => { 
-        // console.log(values);
         props.loginUser(values.Email, values.Password).then(data => {
             
             localStorage.setItem("jwt", data.token);

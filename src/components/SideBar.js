@@ -9,9 +9,9 @@ const DefaultImage = () => {
   const currentUserContext = useContext(CurrentUserContext);
   const currentUser = currentUserContext.currentUser;
   return (
-    <div className="header__default-image">
-      <div className="header__outer-circle">
-        <div className="header__inner-circle">
+    <div className="sidebar__default-image">
+      <div className="sidebar__outer-circle">
+        <div className="sidebar__inner-circle">
           <span>{currentUser.name ? currentUser.name[0] : "N"}</span>
         </div>
       </div>
@@ -25,8 +25,8 @@ const SideBar = (props) => {
 
   return (
     <div className="sidebar">
-      <div className="profile__avatar">
-        <h3 className="profile__avatar-text">{currentUser.name}</h3>
+      <div className="sidebar__avatar">
+        <h3 className="sidebar__avatar-text">{currentUser.name}</h3>
         {currentUser.avatar ? returnImage(currentUser.avatar) : <DefaultImage/>}
       </div>
       <button

@@ -58,7 +58,8 @@ const App = () => {
   useEffect(() => {
     const fetchClothesData = async () => {
       try {
-        const response = await getCards();
+        const response = await getCards(); // why does get cards render twice, go investigate that 
+        console.log(response);
         setClothingItems(response);
       } catch (error) {
         console.error('Error fetching clothes data:', error);

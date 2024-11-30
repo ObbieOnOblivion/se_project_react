@@ -1,6 +1,6 @@
 import React from "react";
 import useEscape from "../utils/useEscape";
-
+//when we close the form we need to clear it?
 const ModalWithForm = (props) => {
   
   const handleModalClick = (event) => {

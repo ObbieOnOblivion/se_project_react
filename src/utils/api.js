@@ -1,17 +1,11 @@
 const baseUrl = process.env.NODE_ENV === "production" 
-  ? "https://API.WTWRA.jumpingcrab.com"
-  : "http://localhost:3001";
+  ? "http://34.145.54.86"
+  : "http://localhost:3003";
 
 console.log(process.env.NODE_ENV);
 
-// if (process.env.NODE_ENV === 'production') {
-//   console.log("Production mode");
-//   // Production-specific configurations
-// } else {
-//   console.log("Development mode");
-// }
-
 const checkResponse = (res) => {
+  console.log(res);
   if (res.ok) {
     return res.json();
   }
